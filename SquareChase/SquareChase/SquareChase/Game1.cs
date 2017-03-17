@@ -20,11 +20,12 @@ namespace SquareChase
         SpriteBatch spriteBatch;
         Random rand = new Random();
         Texture2D squareTexture;
-        Rectangle currentSqaure;
+        Rectangle currentSquare;
         int playerScore = 0;
         float timeRemaining = 0.0f;
         const float TimePerSquare = 0.75f;
         Color[] colors = new Color[3] { Color.Red, Color.Green, Color.Blue };
+        
 
         public Game1()
         {
@@ -53,6 +54,7 @@ namespace SquareChase
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            squareTexture = Content.Load<Texture2D>("square");
 
             // TODO: use this.Content to load your game content here
         }
@@ -80,7 +82,7 @@ namespace SquareChase
             // TODO: Add your update logic here
             if (timeRemaining == 0.0f)
             {
-                currentSqaure = new Rectangle(
+                currentSquare = new Rectangle(
                     rand.Next(0, this.Window.ClientBounds.Width - 25), 
                     rand.Next(0, this.Window.ClientBounds.Height - 25),
                     25, 25);
@@ -89,7 +91,7 @@ namespace SquareChase
             MouseState mouse = Mouse.GetState();
 
             if((mouse.LeftButton == ButtonState.Pressed) &&
-                (currentSqaure.Contains(mouse.X, mouse.Y)))
+                (currentSquare.Contains(mouse.X, mouse.Y)))
             {
                 playerScore++;
                 timeRemaining = 0.0f;
@@ -114,7 +116,7 @@ namespace SquareChase
             spriteBatch.Begin();
             spriteBatch.Draw(
                 squareTexture,
-                currentSqaure,
+                currentSquare,
                 colors[playerScore % 3]);
             spriteBatch.End();
 
