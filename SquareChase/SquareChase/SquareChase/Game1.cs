@@ -23,9 +23,9 @@ namespace SquareChase
         Rectangle currentSquare;
         int playerScore = 0;
         float timeRemaining = 0.0f;
-        const float TimePerSquare = 0.75f;
+        float TimePerSquare = 1.50f;
         Color[] colors = new Color[3] { Color.Red, Color.Green, Color.Blue };
-        
+        int side = 55;
 
         public Game1()
         {
@@ -75,6 +75,8 @@ namespace SquareChase
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            
+           
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -83,18 +85,29 @@ namespace SquareChase
             if (timeRemaining == 0.0f)
             {
                 currentSquare = new Rectangle(
-                    rand.Next(0, this.Window.ClientBounds.Width - 25), 
-                    rand.Next(0, this.Window.ClientBounds.Height - 25),
-                    25, 25);
+                    rand.Next(0, this.Window.ClientBounds.Width - side), 
+                    rand.Next(0, this.Window.ClientBounds.Height - side),
+                    side, side);
                 timeRemaining = TimePerSquare;
             }
+
+           
+
             MouseState mouse = Mouse.GetState();
 
-            if((mouse.LeftButton == ButtonState.Pressed) &&
+
+            if ((mouse.LeftButton == ButtonState.Pressed) &&
                 (currentSquare.Contains(mouse.X, mouse.Y)))
             {
                 playerScore++;
                 timeRemaining = 0.0f;
+                side--;
+                if (side < 10)
+                {
+                    side = 10;
+                }
+
+                TimePerSquare -= .1f;
             }
 
             timeRemaining = MathHelper.Max(0, timeRemaining - (float)gameTime.ElapsedGameTime.TotalSeconds);
